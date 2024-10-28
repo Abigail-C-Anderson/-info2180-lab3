@@ -8,7 +8,7 @@ function clicker(square) {
        square.classList.add("X")
        
     }
-    else if (statArr==("X"))
+    else if (currentState==("X"))
     {
         square.innerHTML="O"
         currentState[0]="O"
