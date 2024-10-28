@@ -72,6 +72,20 @@ function checkDiagonal(diagonal, player) {
     return false;
 }
 
+function newGameAction() {
+    let status = document.getElementById("status");
+    let boardSquares = document.getElementById("board").children;
+    for (let count = 0; count < boardSquares.length; count++) {
+        boardSquares[count].classList.remove("X");
+        boardSquares[count].classList.remove("O");
+        boardSquares[count].textContent = "";
+    }
+    isWinner = false;
+    currentState = [];
+    status.classList.remove("you-won");
+    status.textContent = "Move your mouse over a square and click to play an X or an O.";
+}
+
 // Possible winning combinations
 let rs = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
 let cs = [[1, 4, 7], [2, 5, 8], [3, 6, 9]];
@@ -79,6 +93,7 @@ let ds = [[1, 5, 9], [3, 5, 7]];
 
 window.onload = function () {
     let boardSquares = document.getElementById("board").children;
+    let newGameButton = document.getElementsByClassName("btn");
     for (let count = 0; count < boardSquares.length; count++) {
         boardSquares[count].className = "square";
         boardSquares[count].setAttribute("onclick", "clicker(this)");
@@ -118,4 +133,7 @@ window.onload = function () {
             rowPositions[boardSquares[count].id] = 2;
         }
     }
+
+    newGameButton[0].addEventListener("click", newGameAction);
+
 };
