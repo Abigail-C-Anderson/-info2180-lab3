@@ -9,28 +9,30 @@ let columnPositions = {};
 let diagonalPositions = {};
 
 function clicker(square) {
-    if (currentState.length == 0 || currentState[0] == "O") {
-        square.textContent = "X";
-        square.classList.add("X");
-        currentState[0] = "X";
-    } else if (currentState[0] == "X") {
-        square.textContent = "O";
-        square.classList.add("O");
-        currentState[0] = "O";
-    }
+    if (!isWinner) {
+        if (currentState.length == 0 || (currentState[0] == "O" && square.textContent.length == 0)) {
+            square.textContent = "X";
+            square.classList.add("X");
+            currentState[0] = "X";
+        } else if (currentState[0] == "X" && square.textContent.length == 0) {
+            square.textContent = "O";
+            square.classList.add("O");
+            currentState[0] = "O";
+        }
 
-    currentRow = rowPositions[square.id];
-    currentColumn = columnPositions[square.id];
-    currentDiagonal = diagonalPositions[square.id];
+        currentRow = rowPositions[square.id];
+        currentColumn = columnPositions[square.id];
+        currentDiagonal = diagonalPositions[square.id];
 
-    if (checkRow(rs[currentRow], currentState[0]) || checkColumn(cs[currentColumn], currentState[0]) || checkDiagonal(ds[currentDiagonal], currentState[0])) {
-        isWinner = true;
-    }
+        if (checkRow(rs[currentRow], currentState[0]) || checkColumn(cs[currentColumn], currentState[0]) || checkDiagonal(ds[currentDiagonal], currentState[0])) {
+            isWinner = true;
+        }
 
-    if (isWinner) {
-        let status = document.getElementById("status");
-        status.classList.add("you-won");
-        status.textContent = "Congratulations! " + currentState[0] + " is the Winner!";
+        if (isWinner) {
+            let status = document.getElementById("status");
+            status.classList.add("you-won");
+            status.textContent = "Congratulations! " + currentState[0] + " is the Winner!";
+        }
     }
 }
 
@@ -94,6 +96,7 @@ let ds = [[1, 5, 9], [3, 5, 7]];
 window.onload = function () {
     let boardSquares = document.getElementById("board").children;
     let newGameButton = document.getElementsByClassName("btn");
+
     for (let count = 0; count < boardSquares.length; count++) {
         boardSquares[count].className = "square";
         boardSquares[count].setAttribute("onclick", "clicker(this)");
@@ -133,7 +136,5 @@ window.onload = function () {
             rowPositions[boardSquares[count].id] = 2;
         }
     }
-
     newGameButton[0].addEventListener("click", newGameAction);
-
 };
